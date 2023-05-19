@@ -1,0 +1,13 @@
+<nav>
+  <ul>
+    <li>
+      <a routerLink="/profile" routerLinkActive="active">Profile</a>
+    </li>
+    <li>
+      <a (click)="logout()">Logout</a>
+    </li>
+  </ul>
+</nav>
+<div *ngFor="let room of rooms">
+    <button (click)="navigateToRoom(room.id)">{{ room.name }}</button>
+  </div>

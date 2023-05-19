@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngtemplate": {
+    "ngtemplates": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngtemplate",
+            "outputPath": "dist/ngtemplates",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -48,6 +48,12 @@
                   "maximumError": "4kb"
                 }
               ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "outputHashing": "all"
             },
             "development": {
@@ -65,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ngtemplate:build:production"
+              "browserTarget": "ngtemplates:build:production"
             },
             "development": {
-              "browserTarget": "ngtemplate:build:development"
+              "browserTarget": "ngtemplates:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngtemplate:build"
+            "browserTarget": "ngtemplates:build"
           }
         },
         "test": {
@@ -96,6 +102,16 @@
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "ngtemplates:build:production",
+            "firebaseProject": "hadireuy-15ba4",
+            "firebaseHostingSite": "hadireuy-15ba4"
           }
         }
       }

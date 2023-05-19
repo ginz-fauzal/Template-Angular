@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "hadireuy-15ba4": {
+      "hosting": {
+        "ngtemplates": [
+          "hadireuy-15ba4"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "hadireuy-15ba4"
+  }
+}

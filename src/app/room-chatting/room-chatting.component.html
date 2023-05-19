@@ -1,0 +1,14 @@
+<div class="chat-container">
+    <div class="chat-messages">
+      <div *ngFor="let chat of chatData">
+        <p *ngIf="chat.message">{{chat.username}} : {{ chat.message }}</p>
+        <p *ngIf="chat.image">{{chat.username}} : <img width="100px" height="100px" src="https://ardikastudio.site/template/uploads/{{chat.image}}"> </p>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" [(ngModel)]="chatText" placeholder="Ketik pesan..." />
+      <br>
+      <input type="file" (change)="onImageUpload($event)" />
+      <button (click)="sendMessage()">Kirim</button>
+    </div>
+  </div>
