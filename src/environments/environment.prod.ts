@@ -7,6 +7,7 @@ export const environment = {
     authDomain: 'hadireuy-15ba4.firebaseapp.com',
     messagingSenderId: '1067576094437',
     measurementId: 'G-NFFW0CRLFT',
+    vapidKey:"BGdXBnSDRIsMU2A9UWi0o-VHIGKZlG9nfMREltuxljG49jvMsXaI6th4zNqdl9Uas5IPub4tgq6gTmBTr5prGok"
   },
     production: true,
     apiUrl: 'https://api.bellsekolah.com/web/'

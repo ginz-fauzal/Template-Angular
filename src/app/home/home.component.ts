@@ -32,7 +32,7 @@ export class HomeComponent {
     
       // Token yang diperoleh setelah login
       const token = localStorage.getItem('accessToken');
-      console.log(token)
+      // console.log(token)
     
       // Header dengan bearer token
       const headers = new HttpHeaders({
@@ -46,7 +46,7 @@ export class HomeComponent {
           // Tangani respons dari server
           
           this.rooms = response.data;
-          console.log(this.rooms);
+          // console.log(this.rooms);
         },
         error => {
           // Tangani error jika permintaan gagal
