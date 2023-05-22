@@ -1,4 +1,4 @@
-<nav>
+<!-- <nav>
   <ul>
     <li>
       <a routerLink="/profile" routerLinkActive="active">Profile</a>
@@ -9,5 +9,82 @@
   </ul>
 </nav>
 <div *ngFor="let room of rooms">
-    <button (click)="navigateToRoom(room.id)">{{ room.name }}</button>
+  <button (click)="navigateToRoom(room.id)">{{ room.name }}</button>
+</div> -->
+<div id="background_header"></div>
+<div id="background_body"></div>
+
+<div id="chatContainer">
+  <div id="sidebar">
+    <div id="row1">
+      <div id="sidebarHeader">
+        <div class="avatarContainer">
+          <img (click)="logout()" src="../../assets/images/noPic.svg" />
+        </div>
+        <div class="actionsContainer">
+          <img src="../../assets/images/statusIcon.svg" />
+          <img src="../../assets/images/chatIcon.svg" />
+          <img src="../../assets/images/moreVertIcon.svg" />
+        </div>
+      </div>
+      <div id="searchBox">
+        <img width="19" src="../../assets/images/searchIcon.svg" />
+        <input
+          [(ngModel)]="searchText"
+          type="text"
+          placeholder="Search or start the new chat"
+        />
+      </div>
+    </div>
+  
+    <div id="sidebarContent">
+      <!-- <div id="noConversations">All chats are archived</div> -->
+  
+      <div
+        class="conversation"
+        *ngFor="
+          let conversation of rooms 
+        "
+        (click)="conversationClicked.emit(conversation)"
+      >
+        <div class="picture">
+          <img src="../../assets/images/noPic.svg" />
+        </div>
+        <div class="content">
+          <div class="conversationHeader">
+            <div class="name">{{ conversation.name }}</div>
+            <div class="time">{{ conversation.time }}</div>
+          </div>
+          <div class="message">
+            <img
+              *ngIf="!conversation.latestMessageRead"
+              src="../../assets/images/doubleTick.svg"
+            />
+            <img
+              *ngIf="conversation.latestMessageRead"
+              src="../../assets/images/doubleTickBlue.svg"
+            />
+            {{ conversation.latestMessage }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  
+  <div id="chat">
+    <div id="chatPlaceholder" *ngIf="rooms">
+      <img width="400" src="../assets/images/phoneIcon.png" />
+      <h2>Keep your phone connected</h2>
+      <p>
+        WhatsApp connects your phone to sync messages. To reduce data<br />
+        usage, connect to your phone to Wi-Fi.
+      </p>
+      <div class="seperator"></div>
+
+      <p>WhatsApp is available for Mac. <a href="#">Get it here</a></p>
+    </div>
+
+    <app-room-chatting  *ngIf="!rooms"></app-room-chatting>
+  </div>
+</div>
+

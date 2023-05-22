@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -13,6 +13,8 @@ interface RoomResponse {
 })
 export class HomeComponent {
 
+  @Output() conversationClicked: EventEmitter<any> = new EventEmitter();
+  searchText: string="";
   rooms:any[] = [];
 
   constructor(private router: Router,private http: HttpClient) {
@@ -58,4 +60,19 @@ export class HomeComponent {
   navigateToRoom(roomId: string) {
     this.router.navigate(['/room-chatting', roomId]);
   }
+
+  get filteredConversations() {
+    return true
+    // return this.conversations.filter((conversation) => {
+    //   return (
+    //     conversation.name
+    //       .toLowerCase()
+    //       .includes(this.searchText.toLowerCase()) ||
+    //     conversation.latestMessage
+    //       .toLowerCase()
+    //       .includes(this.searchText.toLowerCase())
+    //   );
+    // });
+  }
+
 }

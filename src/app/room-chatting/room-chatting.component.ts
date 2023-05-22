@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output  } from '@angular/core';
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
@@ -11,6 +11,10 @@ export class RoomChattingComponent {
   chatText: string = '';
   roomId: string = '';
   chatData: any[] = [];
+
+  @Output() onSubmit: EventEmitter<any> = new EventEmitter();
+  // emojiPickerVisible;
+  message = '';
 
   constructor(private http: HttpClient,private route: ActivatedRoute) { }
 
@@ -79,7 +83,6 @@ export class RoomChattingComponent {
     
   }
 
-
   fetchChatData() {
     const token = localStorage.getItem('accessToken');
     const url = `https://ardikastudio.site/template/chat.php?roomId=${this.roomId}`;
@@ -96,5 +99,23 @@ export class RoomChattingComponent {
         // Handle error
       }
     );
+  }
+
+  submitMessage(event:any) {
+    let value = event.target.value.trim();
+    this.message = '';
+    return true
+    // if (value.length < 1) return false;
+    // this.rooms.latestMessage = value;
+    // this.rooms.messages.unshift({
+    //   id: 1,
+    //   body: value,
+    //   time: '10:21',
+    //   me: true,
+    // });
+  }
+
+  emojiClicked(event:any) {
+    this.message += event.emoji.native;
   }
 }
