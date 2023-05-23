@@ -4,7 +4,7 @@
 	padding: 0;
 }
 body {
-	background: #ffc185;
+	background: #019688;
 }
 
 .container{
@@ -91,13 +91,13 @@ button.form-btn {
 button.form-btn.sx {
 	left: 0;
 	border-radius: 0 0 0 5px;
-	background-color: rgba(255, 125, 0, 0.35);
+	background-color: rgba(0, 0, 0, 0.15);
 	color: #fff;
 	transition:all 0.3s linear;
 }
 
 button.form-btn.sx:hover {
-	background-color:rgba(255, 125, 0, 0.65);
+	background-color: rgba(0, 0, 0, 0.35);
 	color: #fff;
 }
 
@@ -113,16 +113,15 @@ button.form-btn.sx.back:hover {
 button.form-btn.dx {
 	right: 0;
 	border-radius: 0 0 5px 0;
-	background-color: #ff7d00;
+	background-color: #019688;
 	color: #fff;
 }
 
 input {
 	border: none;
-	border-bottom: 1px solid #ffc185;
+	border-bottom: 1px solid #019688;
 	width: 85%;
 	font-family: 'Roboto';
-	color: #ff7d00;
 	text-align: center;
 	font-size: 21px;
 	font-weight:100;
@@ -130,41 +129,41 @@ input {
 }
 
 ::-webkit-input-placeholder {
-   color: #ffc185;
+   color: #019688;
 	font-family: 'Roboto';
 	font-weight:100;
 }
 
 :-moz-placeholder {
-   color: #ffc185;  
+   color: #019688;  
 	font-family: 'Roboto';
 	font-weight:100;
 }
 
 ::-moz-placeholder {
-   color: #ffc185;  
+   color: #019688;  
 	font-family: 'Roboto';
 	font-weight:100;
 }
 
 :-ms-input-placeholder {  
-   color: #ffc185; 
+   color: #019688; 
 	font-family: 'Roboto';
 	font-weight:100;
 }
 
-.signIn input,
-.signUp .w100 {
+.signUp input,
+.signIn .w100 {
 	width: 100%;
 }
 
-.signIn{
+.signUp{
 		z-index: 1;
 		transform: perspective(100px) translate3d(0px, 0px, 0px);
 		opacity: 0.5;
 }
 
-.signUp {
+.signIn {
 	z-index: 2;
 }
 

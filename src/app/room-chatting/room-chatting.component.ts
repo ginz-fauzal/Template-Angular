@@ -1,29 +1,42 @@
-import { Component, EventEmitter, Input, OnInit, Output  } from '@angular/core';
+import { Component, Input,OnChanges,SimpleChanges,OnInit   } from '@angular/core';
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { format, isToday, isYesterday, subDays } from 'date-fns';
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 @Component({
   selector: 'app-room-chatting',
   templateUrl: './room-chatting.component.html',
   styleUrls: ['./room-chatting.component.scss']
 })
-export class RoomChattingComponent {
+export class RoomChattingComponent implements OnChanges,OnInit {
   chatText: string = '';
-  roomId: string = '';
+  roomId!: number ;
   chatData: any[] = [];
 
-  @Output() onSubmit: EventEmitter<any> = new EventEmitter();
-  // emojiPickerVisible;
+  @Input() conversation!:number;
   message = '';
 
   constructor(private http: HttpClient,private route: ActivatedRoute) { }
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.roomId = params.get('roomId')!;
-      console.log('roomId:', this.roomId);
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes) {
       this.fetchChatData();
-      // Lakukan logika lain yang diperlukan dengan roomId di sini
+    }
+  }
+
+  ngOnInit(): void {
+    // console.log('Requesting permission...');
+      
+  this.listen();
+}
+
+  listen() {
+    const messaging = getMessaging();
+    onMessage(messaging, (payload) => {
+      console.log('Message received. ', payload);
+      this.fetchChatData()
     });
   }
 
@@ -36,7 +49,7 @@ export class RoomChattingComponent {
     // Membuat FormData untuk mengirim file
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('roomId', this.roomId);
+    formData.append('roomId', this.conversation.toString());
   
     // Mengirim permintaan POST ke upload.php
     return this.http.post('https://ardikastudio.site/template/upload.php', formData, { headers }).subscribe(
@@ -60,7 +73,7 @@ export class RoomChattingComponent {
     // Tentukan URL dan data yang akan dikirim
     const url = 'https://ardikastudio.site/template/chatsend.php';
     const data = {
-      roomId: this.roomId,
+      roomId: this.conversation,
       message: this.chatText
     };
     
@@ -85,7 +98,7 @@ export class RoomChattingComponent {
 
   fetchChatData() {
     const token = localStorage.getItem('accessToken');
-    const url = `https://ardikastudio.site/template/chat.php?roomId=${this.roomId}`;
+    const url = `https://ardikastudio.site/template/chat.php?roomId=${this.conversation}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     this.http.get<any>(url, { headers }).subscribe(
@@ -101,21 +114,26 @@ export class RoomChattingComponent {
     );
   }
 
-  submitMessage(event:any) {
-    let value = event.target.value.trim();
-    this.message = '';
-    return true
-    // if (value.length < 1) return false;
-    // this.rooms.latestMessage = value;
-    // this.rooms.messages.unshift({
-    //   id: 1,
-    //   body: value,
-    //   time: '10:21',
-    //   me: true,
-    // });
-  }
-
-  emojiClicked(event:any) {
-    this.message += event.emoji.native;
+  formatDateTime(dateTime: string): string {
+    const time = new Date(dateTime);
+    
+    // Mengubah format tanggal dan waktu menjadi jam dan menit saja
+    const formattedTime = format(time, 'HH:mm');
+    
+    // Mengubah format tanggal dan waktu menjadi 'kemarin' jika 1 hari yang lalu
+    const yesterday = subDays(new Date(), 1);
+    const yesterdayFormatted = isYesterday(time) ? 'kemarin' : formattedTime;
+    
+    // Mengubah format tanggal dan waktu menjadi tanggal saja jika lebih dari 1 hari yang lalu
+    const today = new Date();
+    const dateFormatted = isToday(time) ? formattedTime : format(time, 'dd/MM/yyyy');
+    
+    if (isYesterday(time)) {
+      return yesterdayFormatted;
+    } else if (time < today) {
+      return dateFormatted;
+    } else {
+      return formattedTime;
+    }
   }
 }

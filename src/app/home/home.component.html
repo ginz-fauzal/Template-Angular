@@ -1,16 +1,3 @@
-<!-- <nav>
-  <ul>
-    <li>
-      <a routerLink="/profile" routerLinkActive="active">Profile</a>
-    </li>
-    <li>
-      <a (click)="logout()">Logout</a>
-    </li>
-  </ul>
-</nav>
-<div *ngFor="let room of rooms">
-  <button (click)="navigateToRoom(room.id)">{{ room.name }}</button>
-</div> -->
 <div id="background_header"></div>
 <div id="background_body"></div>
 
@@ -38,14 +25,12 @@
     </div>
   
     <div id="sidebarContent">
-      <!-- <div id="noConversations">All chats are archived</div> -->
-  
       <div
         class="conversation"
         *ngFor="
           let conversation of rooms 
         "
-        (click)="conversationClicked.emit(conversation)"
+        (click)="conversationClicked(conversation.id)"
       >
         <div class="picture">
           <img src="../../assets/images/noPic.svg" />
@@ -53,7 +38,7 @@
         <div class="content">
           <div class="conversationHeader">
             <div class="name">{{ conversation.name }}</div>
-            <div class="time">{{ conversation.time }}</div>
+            <div class="time">{{ formatDateTime(conversation.created_at) }}</div>
           </div>
           <div class="message">
             <img
@@ -70,9 +55,8 @@
       </div>
     </div>
   </div>
-  
   <div id="chat">
-    <div id="chatPlaceholder" *ngIf="rooms">
+    <!-- <div id="chatPlaceholder" *ngIf="rooms">
       <img width="400" src="../assets/images/phoneIcon.png" />
       <h2>Keep your phone connected</h2>
       <p>
@@ -82,9 +66,9 @@
       <div class="seperator"></div>
 
       <p>WhatsApp is available for Mac. <a href="#">Get it here</a></p>
-    </div>
+    </div> -->
 
-    <app-room-chatting  *ngIf="!rooms"></app-room-chatting>
+    <app-room-chatting  [conversation]="roomId"></app-room-chatting>
   </div>
 </div>
 

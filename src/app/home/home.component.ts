@@ -1,6 +1,7 @@
 import { Component,EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { format, isToday, isYesterday, subDays } from 'date-fns';
 
 interface RoomResponse {
   data: any[]; // Sesuaikan dengan struktur data yang sebenarnya
@@ -13,9 +14,9 @@ interface RoomResponse {
 })
 export class HomeComponent {
 
-  @Output() conversationClicked: EventEmitter<any> = new EventEmitter();
   searchText: string="";
   rooms:any[] = [];
+  roomId:number=1;
 
   constructor(private router: Router,private http: HttpClient) {
     this.getData()
@@ -61,18 +62,31 @@ export class HomeComponent {
     this.router.navigate(['/room-chatting', roomId]);
   }
 
-  get filteredConversations() {
-    return true
-    // return this.conversations.filter((conversation) => {
-    //   return (
-    //     conversation.name
-    //       .toLowerCase()
-    //       .includes(this.searchText.toLowerCase()) ||
-    //     conversation.latestMessage
-    //       .toLowerCase()
-    //       .includes(this.searchText.toLowerCase())
-    //   );
-    // });
+  conversationClicked(id:number){
+    this.roomId=id
+    console.log(this.roomId)
   }
 
+  formatDateTime(dateTime: string): string {
+    const time = new Date(dateTime);
+    
+    // Mengubah format tanggal dan waktu menjadi jam dan menit saja
+    const formattedTime = format(time, 'HH:mm');
+    
+    // Mengubah format tanggal dan waktu menjadi 'kemarin' jika 1 hari yang lalu
+    const yesterday = subDays(new Date(), 1);
+    const yesterdayFormatted = isYesterday(time) ? 'kemarin' : formattedTime;
+    
+    // Mengubah format tanggal dan waktu menjadi tanggal saja jika lebih dari 1 hari yang lalu
+    const today = new Date();
+    const dateFormatted = isToday(time) ? formattedTime : format(time, 'dd/MM/yyyy');
+    
+    if (isYesterday(time)) {
+      return yesterdayFormatted;
+    } else if (time < today) {
+      return dateFormatted;
+    } else {
+      return formattedTime;
+    }
+  }
 }

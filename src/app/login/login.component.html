@@ -1,9 +1,6 @@
 <div class="container">
   <form class="signUp">
     <h3>Create Your Account</h3>
-    <p>Just enter your email address
-      and your password for join.
-    </p>
     <input class="w100" type="email" placeholder="Insert eMail" reqired />
     <input type="password" placeholder="Insert Password" reqired />
     <input type="password" placeholder="Verify Password" reqired />
@@ -11,10 +8,13 @@
     <button class="form-btn dx" type="submit">Sign Up</button>
   </form>
   <form class="signIn" (ngSubmit)="login()">
-    <h3>Welcome Back !</h3>
+    <h4>KAI CHAT</h4>
+    <br>
+    <h4>Login</h4>
+    <br>
     <input type="email" name="email" [(ngModel)]="email" placeholder="Insert eMail" reqired />
     <input type="password" name="password" [(ngModel)]="password" placeholder="Insert Password" reqired />
-    <button class="form-btn sx back" (click)="handleBackClick()" type="button">Back</button>
+    <button class="form-btn sx back" (click)="handleBackClick()" type="button">Sign Up</button>
     <button class="form-btn dx" type="submit">Log In</button>
   </form>
 </div>

@@ -1,18 +1,3 @@
-<!-- <div class="chat-container">
-  <div class="chat-messages">
-    <div *ngFor="let chat of chatData">
-      <p *ngIf="chat.message">{{chat.username}} : {{ chat.message }}</p>
-      <p *ngIf="chat.image">{{chat.username}} : <img width="100px" height="100px"
-          src="https://ardikastudio.site/template/uploads/{{chat.image}}"> </p>
-    </div>
-  </div>
-  <div class="chat-input">
-    <input type="text" [(ngModel)]="chatText" placeholder="Ketik pesan..." />
-    <br>
-    <input type="file" (change)="onImageUpload($event)" />
-    <button (click)="sendMessage()">Kirim</button>
-  </div>
-</div> -->
 <div id="container">
   <div id="header">
     <div class="avatarSection">
@@ -20,10 +5,10 @@
         <img src="../../assets/images/noPic.svg" />
       </div>
 
-      <div class="nameSection">Ayyaz</div>
+      <div class="nameSection">Ayyaz {{conversation}}</div>
     </div>
     <div class="actionButtons">
-      <img src="../../assets/images/attached.svg" />
+      <img src="../../assets/images/searchIcon.svg" />
       <img src="../../assets/images/moreVertIcon.svg" />
     </div>
   </div>
@@ -34,30 +19,18 @@
       *ngFor="let message of chatData"
     >
       <div class="messageContent">
-        {{ message.body }}
-        <div class="time">{{ message.time }}</div>
+        {{ message.message }}
+        <div class="time">{{ formatDateTime(message.created_at) }}</div>
       </div>
     </div>
   </div>
   <div id="footer">
     <div id="smileyIcon">
-      <!-- <img
-        (click)="emojiPickerVisible = !emojiPickerVisible"
-        src="../../assets/images/smileIcon.svg"
-      /> -->
-      <!-- <emoji-mart
-        (emojiClick)="emojiClicked($event)"
-        *ngIf="emojiPickerVisible"
-        style="position: absolute; bottom: 50px"
-        [darkMode]="false"
-        title="Pick your emoji…"
-        emoji="point_up"
-      ></emoji-mart> -->
     </div>
     <div id="textarea">
       <textarea
-        [(ngModel)]="message"
-        (keyup.enter)="submitMessage($event)"
+        [(ngModel)]="chatText"
+        (keyup.enter)="sendMessage()"
       ></textarea>
     </div>
     <div id="micIcon">
