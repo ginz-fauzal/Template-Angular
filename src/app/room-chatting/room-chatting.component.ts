@@ -2,6 +2,7 @@ import { Component, Input,OnChanges,SimpleChanges,OnInit   } from '@angular/core
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { format, isToday, isYesterday, subDays } from 'date-fns';
 import { getMessaging, onMessage } from "firebase/messaging";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-room-chatting',
@@ -9,14 +10,19 @@ import { getMessaging, onMessage } from "firebase/messaging";
   styleUrls: ['./room-chatting.component.scss']
 })
 export class RoomChattingComponent implements OnChanges,OnInit {
+
   chatText: string = '';
   roomId: number =0;
   chatData: any[] = [];
 
   @Input() conversation!:number;
   message = '';
+  showFileUpload = false;
+  imgUrl='';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.imgUrl=environment.apiUrl
+  }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -29,6 +35,11 @@ export class RoomChattingComponent implements OnChanges,OnInit {
     this.listen();
   }
 
+
+  openFileUpload() {
+    this.showFileUpload = !this.showFileUpload;
+  }
+
   listen() {
     const messaging = getMessaging();
     onMessage(messaging, (payload) => {
@@ -38,22 +49,26 @@ export class RoomChattingComponent implements OnChanges,OnInit {
 
   onImageUpload(event: any) {
     const file = event.target.files[0];
-    const token = localStorage.getItem('accessToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('roomId', this.conversation.toString());
-  
-    return this.http.post('https://ardikastudio.site/template/upload.php', formData, { headers }).subscribe(
+    this.uploadImage(file).subscribe(
       response => {
         event.target.value = null;
+        this.showFileUpload = false;
         this.fetchChatData()
       },
       error => {
         console.error(error);
       }
     );
+  }
+
+  uploadImage(file:any){
+    console.log(file)
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('roomId', this.conversation.toString());
+    const token = localStorage.getItem('accessToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post('https://ardikastudio.site/template/upload.php', formData, { headers })
   }
 
   sendMessage() {
@@ -112,5 +127,28 @@ export class RoomChattingComponent implements OnChanges,OnInit {
     } else {
       return formattedTime;
     }
+  }
+
+  onFileDropped(event: DragEvent) {
+    console.log(event.dataTransfer?.files)
+    this.uploadImage(event.dataTransfer?.files[0]).subscribe(
+      response => {
+        this.showFileUpload = false;
+        this.fetchChatData()
+      },
+      error => {
+        console.error(error);
+      }
+    );;
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 }

@@ -4,7 +4,6 @@
       <div class="picture">
         <img src="../../assets/images/noPic.svg" />
       </div>
-
       <div class="nameSection">Ayyaz {{conversation}}</div>
     </div>
     <div class="actionButtons">
@@ -12,32 +11,37 @@
       <img src="../../assets/images/moreVertIcon.svg" />
     </div>
   </div>
-  <div id="body">
-    <div
-      class="message " [ngClass]="{ me : message.me=='1' }"
-      *ngFor="let message of chatData"
-    >
-      
+  <div id="body" *ngIf="!showFileUpload">
+    <div class="message " [ngClass]="{ me : message.me=='1' }" *ngFor="let message of chatData">
+
       <div class="messageContent">
         <div class="title-name">
           {{ message.username }}
         </div>
+        <img *ngIf="message.image!=null && message.image!=''" class="message-img" src="{{imgUrl}}{{ message.image }}" />
         {{ message.message }}
-        <div class="time">{{ formatDateTime(message.created_at) }}</div>
+        <div *ngIf="message.image==null || message.image==''" class="time">{{ formatDateTime(message.created_at) }}
+        </div>
       </div>
     </div>
   </div>
+  <div id="body" *ngIf="showFileUpload">
+    <label for="images" class="drop-container" (drop)="onFileDropped($event)" (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)">
+      <span class="drop-title">Drop files here</span>
+      or
+      <input type="file" name="images" accept="image/*" (change)="onImageUpload($event)" required />
+    </label>
+  </div>
   <div id="footer">
     <div id="smileyIcon">
+      <img src="../../assets/images/attached.svg" (click)="openFileUpload()" />
     </div>
     <div id="textarea">
-      <textarea
-        [(ngModel)]="chatText"
-        (keyup.enter)="sendMessage()"
-      ></textarea>
+      <textarea [(ngModel)]="chatText" (keyup.enter)="sendMessage()"></textarea>
     </div>
-    <div id="micIcon">
+    <!-- <div id="micIcon">
       <img src="../../assets/images/voiceIcon.svg" />
-    </div>
+    </div> -->
   </div>
 </div>
