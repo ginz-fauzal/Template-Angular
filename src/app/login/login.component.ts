@@ -9,6 +9,7 @@ import { Renderer2 } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  
   email: string="user1@example.com";
   password: string="password1";
 
@@ -19,7 +20,6 @@ export class LoginComponent {
   }
 
   login() {
-    // Mengirim data login ke API menggunakan HTTP POST request
     const loginData = {
       email: this.email,
       password: this.password
@@ -28,20 +28,15 @@ export class LoginComponent {
     this.http.post('https://ardikastudio.site/template/login.php', loginData).subscribe(
       (response: any) => {
         if (response.code === 200 && response.status === 'success') {
-          // Login berhasil, simpan data pengguna ke penyimpanan lokal
-          console.log(response.data.token)
           localStorage.setItem('accessToken', response.data.token);
           
-          // Arahkan pengguna ke halaman home
           this.router.navigate(['/home']);
         } else {
-          // Login gagal, tampilkan pesan error atau tindakan lainnya
           console.log('Login failed');
         }
         console.log(response);
       },
       (error) => {
-        // Penanganan error jika ada kesalahan dalam proses login
         console.error(error);
       }
     );

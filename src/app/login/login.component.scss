@@ -4,7 +4,7 @@
 	padding: 0;
 }
 body {
-	background: #019688;
+	background: #2d2a70;
 }
 
 .container{
@@ -13,6 +13,12 @@ body {
 	height:auto;
 	top: calc(50% - 240px);
 	left: calc(50% - 160px);
+}
+
+.ikon{
+	width: 100px;
+	height: auto;
+	text-align: center;
 }
 
 form {
@@ -113,13 +119,13 @@ button.form-btn.sx.back:hover {
 button.form-btn.dx {
 	right: 0;
 	border-radius: 0 0 5px 0;
-	background-color: #019688;
+	background-color: #2d2a70;
 	color: #fff;
 }
 
 input {
 	border: none;
-	border-bottom: 1px solid #019688;
+	border-bottom: 1px solid #2d2a70;
 	width: 85%;
 	font-family: 'Roboto';
 	text-align: center;
@@ -129,25 +135,25 @@ input {
 }
 
 ::-webkit-input-placeholder {
-   color: #019688;
+   color: #2d2a70;
 	font-family: 'Roboto';
 	font-weight:100;
 }
 
 :-moz-placeholder {
-   color: #019688;  
+   color: #2d2a70;  
 	font-family: 'Roboto';
 	font-weight:100;
 }
 
 ::-moz-placeholder {
-   color: #019688;  
+   color: #2d2a70;  
 	font-family: 'Roboto';
 	font-weight:100;
 }
 
 :-ms-input-placeholder {  
-   color: #019688; 
+   color: #2d2a70; 
 	font-family: 'Roboto';
 	font-weight:100;
 }
@@ -158,9 +164,9 @@ input {
 }
 
 .signUp{
-		z-index: 1;
-		transform: perspective(100px) translate3d(0px, 0px, 0px);
-		opacity: 0.5;
+	z-index: 1;
+	transform: perspective(100px) translate3d(0px, 0px, 0px);
+	opacity: 0.5;
 }
 
 .signIn {

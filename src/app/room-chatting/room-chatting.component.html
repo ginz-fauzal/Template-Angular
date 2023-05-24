@@ -14,11 +14,14 @@
   </div>
   <div id="body">
     <div
-      class="message"
-      [ngClass]="{ me: message.me }"
+      class="message " [ngClass]="{ me : message.me=='1' }"
       *ngFor="let message of chatData"
     >
+      
       <div class="messageContent">
+        <div class="title-name">
+          {{ message.username }}
+        </div>
         {{ message.message }}
         <div class="time">{{ formatDateTime(message.created_at) }}</div>
       </div>
