@@ -1,9 +1,9 @@
 <div class="container">
-  <form class="signUp">
+  <form class="signUp" (ngSubmit)="register()">
     <h3>Create Your Account</h3>
-    <input class="w100" type="email" placeholder="Insert eMail" reqired />
-    <input type="password" placeholder="Insert Password" reqired />
-    <input type="password" placeholder="Verify Password" reqired />
+    <input class="w100" type="text" [(ngModel)]="username" name="username" placeholder="Username" reqired />
+    <input class="w100" type="email" [(ngModel)]="email" name="email" placeholder="Email" reqired />
+    <input type="password" [(ngModel)]="password" name="password" placeholder="Password" reqired />
     <button class="form-btn sx log-in" type="button" (click)="handleLogInClick()">Log In</button>
     <button class="form-btn dx" type="submit">Sign Up</button>
   </form>
@@ -12,8 +12,8 @@
     <img class="ikon" src="../../assets/images/KAI.svg.png" />
     <br>
     <br>
-    <input type="email" name="email" [(ngModel)]="email" placeholder="Insert eMail" reqired />
-    <input type="password" name="password" [(ngModel)]="password" placeholder="Insert Password" reqired />
+    <input type="email" name="email" [(ngModel)]="email" placeholder="eMail" reqired />
+    <input type="password" name="password" [(ngModel)]="password" placeholder="Password" reqired />
     <button class="form-btn sx back" (click)="handleBackClick()" type="button">Sign Up</button>
     <button class="form-btn dx" type="submit">Log In</button>
   </form>

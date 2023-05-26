@@ -2,6 +2,7 @@ import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { format, isToday, isYesterday, subDays } from 'date-fns';
+import { ServicesService } from '../services.service';
 
 @Component({
   selector: 'app-home',
@@ -12,14 +13,15 @@ export class HomeComponent {
 
   searchText: string="";
   rooms:any[] = [];
-  roomId:number=0;
+  roomId:number;
 
-  constructor(private router: Router,private http: HttpClient) {
+  constructor(private router: Router,private http: HttpClient,private services: ServicesService) {
     this.getData()
+    this.roomId=Number(this.services.decryptData(localStorage.getItem('roomId')!));
   }
 
   logout() {
-    localStorage.removeItem('accessToken');
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 
@@ -46,9 +48,11 @@ export class HomeComponent {
     this.router.navigate(['/room-chatting', roomId]);
   }
 
-  conversationClicked(id:number){
+  conversationClicked(id:number,name:string){
+    
+    localStorage.setItem('roomId', this.services.encryptData(id.toString()));
+    localStorage.setItem('namaRoom', this.services.encryptData(name));
     this.roomId=id
-    console.log(this.roomId)
   }
 
   formatDateTime(dateTime: string): string {

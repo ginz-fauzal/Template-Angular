@@ -1,10 +1,10 @@
-import { Component
-,OnInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Renderer2 } from '@angular/core';
 import { environment } from "../../environments/environment";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken } from "firebase/messaging";
+import { ServicesService } from '../services.service';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +15,10 @@ export class LoginComponent implements OnInit{
   
   email: string="user1@example.com";
   password: string="password1";
+  username: string="users";
   token:string='';
 
-  constructor(private http: HttpClient,private router: Router,private renderer: Renderer2) {
+  constructor(private http: HttpClient,private router: Router,private renderer: Renderer2,private services: ServicesService) {
     if (localStorage.getItem('accessToken')) {
       this.router.navigate(['/home']);
     }
@@ -53,12 +54,31 @@ export class LoginComponent implements OnInit{
     this.http.post('https://ardikastudio.site/template/login.php', loginData).subscribe(
       (response: any) => {
         if (response.code === 200 && response.status === 'success') {
-          localStorage.setItem('accessToken', response.data.token);
-          
+          localStorage.setItem('accessToken', response.accessToken);
+          localStorage.setItem('roomId', this.services.encryptData("0"));
+          localStorage.setItem('namaRoom', this.services.encryptData("0"));
           this.router.navigate(['/home']);
         } else {
           console.log('Login failed');
         }
+        console.log(response);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  register() {
+    console.log(this.token)
+    const loginData = {
+      email: this.email,
+      password: this.password,
+      username:this.username
+    };
+
+    this.http.post('https://ardikastudio.site/template/register.php', loginData).subscribe(
+      (response: any) => {
         console.log(response);
       },
       (error) => {

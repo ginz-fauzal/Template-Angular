@@ -4,23 +4,23 @@
       <div class="picture">
         <img src="../../assets/images/noPic.svg" />
       </div>
-      <div class="nameSection">Ayyaz {{conversation}}</div>
+      <div class="nameSection">{{nama}}</div>
     </div>
-    <div class="actionButtons">
+    <!-- <div class="actionButtons">
       <img src="../../assets/images/searchIcon.svg" />
       <img src="../../assets/images/moreVertIcon.svg" />
-    </div>
+    </div> -->
   </div>
   <div id="body" *ngIf="!showFileUpload">
     <div class="message " [ngClass]="{ me : message.me=='1' }" *ngFor="let message of chatData">
 
       <div class="messageContent">
         <div class="title-name">
-          {{ message.username }}
+          {{message.username}}
         </div>
         <img *ngIf="message.image!=null && message.image!=''" class="message-img" src="{{imgUrl}}{{ message.image }}" />
         {{ message.message }}
-        <div *ngIf="message.image==null || message.image==''" class="time">{{ formatDateTime(message.created_at) }}
+        <div class="time">{{ formatDateTime(message.created_at) }}
         </div>
       </div>
     </div>
@@ -34,7 +34,14 @@
     </label>
   </div>
   <div id="footer">
+    <div id="micIcon">
+      <img (click)="emojiPickerVisible = !emojiPickerVisible" src="../../assets/images/smileIcon.svg" />
+      <emoji-mart (emojiClick)="emojiClicked($event)" *ngIf="emojiPickerVisible"
+        style="position: absolute; bottom: 50px" [darkMode]="false" set="facebook" title="Pick your emoji…" emoji="point_up">
+      </emoji-mart>
+    </div>
     <div id="smileyIcon">
+      
       <img src="../../assets/images/attached.svg" (click)="openFileUpload()" />
     </div>
     <div id="textarea">

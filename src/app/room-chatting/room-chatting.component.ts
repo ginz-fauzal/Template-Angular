@@ -3,6 +3,7 @@ import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { format, isToday, isYesterday, subDays } from 'date-fns';
 import { getMessaging, onMessage } from "firebase/messaging";
 import { environment } from "../../environments/environment";
+import { ServicesService } from '../services.service';
 
 @Component({
   selector: 'app-room-chatting',
@@ -16,19 +17,27 @@ export class RoomChattingComponent implements OnChanges,OnInit {
   chatData: any[] = [];
 
   @Input() conversation!:number;
-  message = '';
   showFileUpload = false;
   imgUrl='';
+  emojiPickerVisible=false;
+  nama?:string;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient,private services: ServicesService) { 
     this.imgUrl=environment.apiUrl
   }
 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes) {
+      this.nama=this.services.decryptData(localStorage.getItem('namaRoom')!);
+      this.roomId=Number(this.services.decryptData(localStorage.getItem('roomId')!));
       this.fetchChatData();
     }
+  }
+
+  emojiClicked(event:any) {
+    this.chatText += event.emoji.native;
+    this.emojiPickerVisible=false
   }
 
   ngOnInit(): void {
@@ -95,18 +104,22 @@ export class RoomChattingComponent implements OnChanges,OnInit {
   }
 
   fetchChatData() {
-    const token = localStorage.getItem('accessToken');
-    const url = `https://ardikastudio.site/template/chat.php?roomId=${this.conversation}`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    this.http.get<any>(url, { headers }).subscribe(
-      response => {
-        this.chatData = response.data;
-      },
-      error => {
-        console.error(error);
-      }
-    );
+    if(this.conversation!=0){
+      const token = localStorage.getItem('accessToken');
+      const url = `https://ardikastudio.site/template/chat.php?roomId=${this.conversation}`;
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  
+      this.http.get<any>(url, { headers }).subscribe(
+        response => {
+          this.chatData = response.data;
+          // localStorage.removeItem('namaRoom')
+          // localStorage.removeItem('roomId')
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }
   }
 
   formatDateTime(dateTime: string): string {
@@ -130,6 +143,7 @@ export class RoomChattingComponent implements OnChanges,OnInit {
   }
 
   onFileDropped(event: DragEvent) {
+    event.preventDefault();
     console.log(event.dataTransfer?.files)
     this.uploadImage(event.dataTransfer?.files[0]).subscribe(
       response => {
@@ -139,7 +153,7 @@ export class RoomChattingComponent implements OnChanges,OnInit {
       error => {
         console.error(error);
       }
-    );;
+    );
   }
 
   onDragOver(event: DragEvent) {
