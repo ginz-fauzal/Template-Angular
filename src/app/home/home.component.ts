@@ -1,7 +1,6 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { format, isToday, isYesterday, subDays } from 'date-fns';
 import { ServicesService } from '../services.service';
 
 @Component({
@@ -14,8 +13,10 @@ export class HomeComponent {
   searchText: string="";
   rooms:any[] = [];
   roomId:number;
+  profileView=false;
+  userInfo:any;
 
-  constructor(private router: Router,private http: HttpClient,private services: ServicesService) {
+  constructor(private router: Router,private http: HttpClient,public services: ServicesService) {
     this.getData()
     this.roomId=Number(this.services.decryptData(localStorage.getItem('roomId')!));
   }
@@ -25,6 +26,14 @@ export class HomeComponent {
     this.router.navigate(['/login']);
   }
 
+  onUserSelected(user:any){
+    this.userInfo = user;
+  }
+
+  profileShow(){
+    this.profileView=!this.profileView;
+  }
+  
   getData(){
       const url = 'https://ardikastudio.site/template/room.php';
       const token = localStorage.getItem('accessToken');
@@ -36,7 +45,6 @@ export class HomeComponent {
       this.http.get<any>(url, { headers }).subscribe(
         response => {
           this.rooms = response.data;
-          console.log(this.rooms);
         },
         error => {
           console.error(error);
@@ -44,31 +52,10 @@ export class HomeComponent {
       );
   }
 
-  navigateToRoom(roomId: string) {
-    this.router.navigate(['/room-chatting', roomId]);
-  }
-
   conversationClicked(id:number,name:string){
-    
     localStorage.setItem('roomId', this.services.encryptData(id.toString()));
     localStorage.setItem('namaRoom', this.services.encryptData(name));
     this.roomId=id
   }
 
-  formatDateTime(dateTime: string): string {
-    const time = new Date(dateTime);
-    const formattedTime = format(time, 'HH:mm');
-    const yesterday = subDays(new Date(), 1);
-    const yesterdayFormatted = isYesterday(time) ? 'kemarin' : formattedTime;
-    const today = new Date();
-    const dateFormatted = isToday(time) ? formattedTime : format(time, 'dd/MM/yyyy');
-    
-    if (isYesterday(time)) {
-      return yesterdayFormatted;
-    } else if (time < today) {
-      return dateFormatted;
-    } else {
-      return formattedTime;
-    }
-  }
 }

@@ -1,0 +1,34 @@
+#sidebar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  
+    #row1 {
+      display: flex;
+      flex-direction: column;
+  
+      #sidebarHeader {
+        flex-basis: 67px;
+        background-color: #211e57;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 20px;
+        padding-right: 20px;
+        justify-content: center;
+  
+        .avatarContainer {
+          padding:10px;
+          text-align: center;
+          img {
+            text-align: center;
+            height: 100%;
+          }
+          .title{
+            color: white;
+          }
+        }
+      } 
+    }
+  }

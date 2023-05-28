@@ -1,6 +1,5 @@
-import { Component, Input,OnChanges,SimpleChanges,OnInit   } from '@angular/core';
+import { Component, Input,OnChanges,SimpleChanges,EventEmitter, OnInit, Output   } from '@angular/core';
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
-import { format, isToday, isYesterday, subDays } from 'date-fns';
 import { getMessaging, onMessage } from "firebase/messaging";
 import { environment } from "../../environments/environment";
 import { ServicesService } from '../services.service';
@@ -12,6 +11,8 @@ import { ServicesService } from '../services.service';
 })
 export class RoomChattingComponent implements OnChanges,OnInit {
 
+  @Output() userClicked: EventEmitter<any> = new EventEmitter();
+
   chatText: string = '';
   roomId: number =0;
   chatData: any[] = [];
@@ -22,7 +23,7 @@ export class RoomChattingComponent implements OnChanges,OnInit {
   emojiPickerVisible=false;
   nama?:string;
 
-  constructor(private http: HttpClient,private services: ServicesService) { 
+  constructor(private http: HttpClient,public services: ServicesService) { 
     this.imgUrl=environment.apiUrl
   }
 
@@ -112,33 +113,12 @@ export class RoomChattingComponent implements OnChanges,OnInit {
       this.http.get<any>(url, { headers }).subscribe(
         response => {
           this.chatData = response.data;
-          // localStorage.removeItem('namaRoom')
-          // localStorage.removeItem('roomId')
+          console.log(this.chatData)
         },
         error => {
           console.error(error);
         }
       );
-    }
-  }
-
-  formatDateTime(dateTime: string): string {
-    const time = new Date(dateTime);
-    
-    const formattedTime = format(time, 'HH:mm');
-    
-    const yesterday = subDays(new Date(), 1);
-    const yesterdayFormatted = isYesterday(time) ? 'kemarin' : formattedTime;
-    
-    const today = new Date();
-    const dateFormatted = isToday(time) ? formattedTime : format(time, 'dd/MM/yyyy');
-    
-    if (isYesterday(time)) {
-      return yesterdayFormatted;
-    } else if (time < today) {
-      return dateFormatted;
-    } else {
-      return formattedTime;
     }
   }
 
