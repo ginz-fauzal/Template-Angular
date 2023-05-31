@@ -9,15 +9,13 @@
   </div>
   <div id="body" *ngIf="!showFileUpload">
     <div class="message " [ngClass]="{ me : message.me=='1' }" *ngFor="let message of chatData">
-
       <div class="messageContent">
         <div (click)="userClicked.emit(message.email)" class="title-name">
           {{message.username}}
         </div>
-        <img *ngIf="message.image!=null && message.image!=''" class="message-img" src="{{imgUrl}}{{ message.image }}" />
-        {{ message.message }}
-        <div class="time">{{ services.formatDateTime(message.created_at) }}
-        </div>
+        <pre class="msg">{{ message.tipe_message=='text'?message.message:'' }}</pre>
+        <img *ngIf="message.tipe_message=='image'" class="message-img" src="{{ message.images }}" />
+        <div class="time">{{ services.formatDateTime(message.created_at) }}</div>
       </div>
     </div>
   </div>

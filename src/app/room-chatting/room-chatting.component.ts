@@ -1,7 +1,6 @@
 import { Component, Input,OnChanges,SimpleChanges,EventEmitter, OnInit, Output   } from '@angular/core';
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { getMessaging, onMessage } from "firebase/messaging";
-import { environment } from "../../environments/environment";
 import { ServicesService } from '../services.service';
 
 @Component({
@@ -19,13 +18,10 @@ export class RoomChattingComponent implements OnChanges,OnInit {
 
   @Input() conversation!:number;
   showFileUpload = false;
-  imgUrl='';
   emojiPickerVisible=false;
   nama?:string;
 
-  constructor(private http: HttpClient,public services: ServicesService) { 
-    this.imgUrl=environment.apiUrl
-  }
+  constructor(private http: HttpClient,public services: ServicesService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -82,26 +78,29 @@ export class RoomChattingComponent implements OnChanges,OnInit {
   }
 
   sendMessage() {
-    const token = localStorage.getItem('accessToken');
-    const url = 'https://ardikastudio.site/template/chatsend.php';
-    const data = {
-      roomId: this.conversation,
-      message: this.chatText
-    };
-    
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
-    this.http.post(url, data, { headers }).subscribe(
-      response => {
-        this.fetchChatData();
-        this.chatText="";
-        console.log(response);
-      },
-      error => {
-        console.error(error);
-      }
-    );
-    
+    if(this.chatText!='\n'){
+      const token = localStorage.getItem('accessToken');
+      const url = 'https://ardikastudio.site/template/chatsend.php';
+      const data = {
+        roomId: this.conversation,
+        message: this.chatText
+      };
+      
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      
+      this.http.post(url, data, { headers }).subscribe(
+        response => {
+          this.fetchChatData();
+          this.chatText="";
+          console.log(response);
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }else{
+      this.chatText=''
+    }
   }
 
   fetchChatData() {

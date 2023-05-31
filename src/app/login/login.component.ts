@@ -55,8 +55,6 @@ export class LoginComponent implements OnInit{
       (response: any) => {
         if (response.code === 200 && response.status === 'success') {
           localStorage.setItem('accessToken', response.accessToken);
-          localStorage.setItem('roomId', this.services.encryptData("0"));
-          localStorage.setItem('namaRoom', this.services.encryptData("0"));
           this.router.navigate(['/home']);
         } else {
           console.log('Login failed');

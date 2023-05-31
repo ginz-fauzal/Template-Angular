@@ -10,5 +10,4 @@ export const environment = {
     vapidKey:"BGdXBnSDRIsMU2A9UWi0o-VHIGKZlG9nfMREltuxljG49jvMsXaI6th4zNqdl9Uas5IPub4tgq6gTmBTr5prGok"
   },
     production: true,
-    apiUrl: 'https://ardikastudio.site/template/uploads/'
   };

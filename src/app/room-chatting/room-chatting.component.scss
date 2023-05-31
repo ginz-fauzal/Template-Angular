@@ -71,16 +71,26 @@
           color: #767676;
         }
 
+        .title-name:hover{
+          text-decoration: underline;
+          cursor: pointer;
+        }
+
         .message-img{
           width: 300px;
           height: auto;
+        }
+
+        .msg{
+          margin: 0px;
+          padding: 0px;
         }
 
         .time {
           text-align: right;
           color: #959698;
           font-size: 13px;
-          margin-top: 5px;
+          margin-top: 0px;
         }
       }
 
