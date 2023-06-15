@@ -10,11 +10,11 @@ export class ServicesService {
   constructor() { }
 
   encryptData(data: string): string {
-    return CryptoJS.AES.encrypt(data,"12").toString();
+    return CryptoJS.AES.encrypt(data,"password").toString();
   }
 
   decryptData(encryptedData: string): string {
-    const bytes = CryptoJS.AES.decrypt(encryptedData,"12");
+    const bytes = CryptoJS.AES.decrypt(encryptedData,"password");
     return bytes.toString(CryptoJS.enc.Utf8);
   }
 
@@ -33,6 +33,13 @@ export class ServicesService {
     } else {
       return formattedTime;
     }
+  }
+
+  setStorage(){
+    localStorage.setItem('roomId', this.encryptData("0"));
+    localStorage.setItem('namaRoom', this.encryptData("0"));
+    localStorage.setItem('imageRoom', this.encryptData("../../assets/images/noPic.svg"));
+    localStorage.setItem('image', this.encryptData("../../assets/images/noPic.svg"));
   }
 
 }

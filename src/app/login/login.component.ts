@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit{
      { vapidKey: environment.firebase.vapidKey}).then(
        (currentToken) => {
         this.token=currentToken
+        console.log(this.token)
      }).catch((err) => {
         console.log('An error occurred while retrieving token. ', err);
     });
@@ -54,12 +55,13 @@ export class LoginComponent implements OnInit{
     this.http.post('https://ardikastudio.site/template/login.php', loginData).subscribe(
       (response: any) => {
         if (response.code === 200 && response.status === 'success') {
+          this.services.setStorage();
           localStorage.setItem('accessToken', response.accessToken);
+          localStorage.setItem('image', this.services.encryptData(response.data.foto));
           this.router.navigate(['/home']);
         } else {
           console.log('Login failed');
         }
-        console.log(response);
       },
       (error) => {
         console.error(error);

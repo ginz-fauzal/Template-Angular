@@ -4,7 +4,9 @@
   <div *ngIf="profileView" id="profile">
     <div id="sidebarHeader">
       <div class="nameSection">
-        <span (click)="profileShow()"><h5>X Info Profil</h5></span>
+        <span (click)="profileShow()">
+          <h5>X Info Profil</h5>
+        </span>
       </div>
     </div>
     <app-profile></app-profile>
@@ -13,12 +15,14 @@
     <div id="row1">
       <div id="sidebarHeader">
         <div class="avatarContainer">
-          <img (click)="profileShow()" src="../../assets/images/noPic.svg" />
+          <img (click)="profileShow()" [src]="image" />
         </div>
-        <div (click)="logout()" class="actionsContainer">
-          <img src="../../assets/images/statusIcon.svg" />
-          <img src="../../assets/images/chatIcon.svg" />
-          <img src="../../assets/images/moreVertIcon.svg" /> 
+        <div class="actionsContainer">
+          <h5>
+            <i class="fas fa-fw fa-users"></i> &nbsp;
+            <i (click)="logout()" class="fas fa-fw fa-power-off"></i>&nbsp;
+            <i class="fas fa-fw fa-ellipsis-v"></i>
+          </h5>
         </div>
       </div>
       <div id="searchBox">
@@ -29,7 +33,7 @@
 
     <div id="sidebarContent">
       <div class="conversation" *ngFor="let conversation of rooms"
-        (click)="conversationClicked(conversation.id,conversation.jumlah>1 ? conversation.name:conversation.username)">
+        (click)="conversationClicked(conversation.id,conversation.jumlah>1 ? conversation.name:conversation.username,conversation.jumlah>1 ? conversation.foto:conversation.fotos)">
         <div class="picture">
           <img src="{{ conversation.jumlah>1 ? conversation.foto:conversation.fotos }}" />
         </div>
@@ -65,7 +69,9 @@
   <div *ngIf="userInfo" id="profile">
     <div id="sidebarHeader">
       <div class="nameSection">
-        <span (click)="onUserSelected('')"><h5>X Info Kontak</h5></span>
+        <span (click)="onUserSelected('')">
+          <h5>X Info Kontak</h5>
+        </span>
       </div>
     </div>
     <app-info [userInfo]="userInfo"></app-info>

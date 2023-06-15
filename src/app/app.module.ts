@@ -17,6 +17,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { InfoComponent } from './info/info.component';
+import { KontakComponent } from './kontak/kontak.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { InfoComponent } from './info/info.component';
     HomeComponent,
     RoomChattingComponent,
     ProfileComponent,
-    InfoComponent
+    InfoComponent,
+    KontakComponent
   ],
   imports: [
     BrowserModule,

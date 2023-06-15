@@ -12,8 +12,6 @@ export class ProfileComponent {
   userData:any=[];
   image: string |SafeUrl ="";
 
-
-
   constructor(private http: HttpClient,private sanitizer: DomSanitizer) {
     this.getData()
   }

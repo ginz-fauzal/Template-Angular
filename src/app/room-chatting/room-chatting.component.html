@@ -2,12 +2,12 @@
   <div id="header">
     <div class="avatarSection">
       <div class="picture">
-        <img src="../../assets/images/noPic.svg" />
+        <img [src]="roomImage" />
       </div>
       <div class="nameSection">{{nama}}</div>
     </div>
   </div>
-  <div id="body" *ngIf="!showFileUpload">
+  <div id="body" #scrollContainer *ngIf="!showFileUpload">
     <div class="message " [ngClass]="{ me : message.me=='1' }" *ngFor="let message of chatData">
       <div class="messageContent">
         <div (click)="userClicked.emit(message.email)" class="title-name">
@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-  <div id="body" *ngIf="showFileUpload">
+  <div *ngIf="showFileUpload">
     <label for="images" class="drop-container" (drop)="onFileDropped($event)" (dragover)="onDragOver($event)"
       (dragleave)="onDragLeave($event)">
       <span class="drop-title">Drop files here</span>

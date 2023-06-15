@@ -1,0 +1,40 @@
+<div *ngIf="!profileView" id="sidebar">
+    <div id="row1">
+      <div id="sidebarHeader">
+        <div class="avatarContainer">
+          <img (click)="profileShow()" [src]="image" />
+        </div>
+        <div class="actionsContainer">
+          <h5>
+            <i class="fas fa-fw fa-users"></i> &nbsp;
+            <i (click)="logout()" class="fas fa-fw fa-power-off"></i>&nbsp;
+            <i class="fas fa-fw fa-ellipsis-v"></i>
+          </h5>
+        </div>
+      </div>
+      <div id="searchBox">
+        <img width="19" src="../../assets/images/searchIcon.svg" />
+        <input [(ngModel)]="searchText" type="text" placeholder="Search or start the new chat" />
+      </div>
+    </div>
+
+    <div id="sidebarContent">
+      <div class="conversation" *ngFor="let conversation of rooms"
+        (click)="conversationClicked(conversation.id,conversation.jumlah>1 ? conversation.name:conversation.username,conversation.jumlah>1 ? conversation.foto:conversation.fotos)">
+        <div class="picture">
+          <img src="{{ conversation.jumlah>1 ? conversation.foto:conversation.fotos }}" />
+        </div>
+        <div class="content">
+          <div class="conversationHeader">
+            <div class="name">{{ conversation.jumlah>1 ? conversation.name:conversation.username }} </div>
+            <div class="time">{{ services.formatDateTime(conversation.created_at) }}</div>
+          </div>
+          <div class="message">
+            <img *ngIf="!conversation.latestMessageRead" src="../../assets/images/doubleTick.svg" />
+            <img *ngIf="conversation.latestMessageRead" src="../../assets/images/doubleTickBlue.svg" />
+            {{ conversation.latestMessage }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

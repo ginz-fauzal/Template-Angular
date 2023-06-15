@@ -78,6 +78,7 @@
 
           img {
             height: 100%;
+            border-radius: 50%;
           }
 
           img:hover{
@@ -91,8 +92,11 @@
           align-items: center;
           width: 110px;
           display: flex;
-          align-items: center;
-          justify-content: space-between;
+          justify-content: right;
+          i{
+            color: #6a6868;
+            text-align: right;
+          }
         }
       }
 
