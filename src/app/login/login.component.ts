@@ -13,8 +13,8 @@ import { ServicesService } from '../services.service';
 })
 export class LoginComponent implements OnInit{
   
-  email: string="user1@example.com";
-  password: string="password1";
+  email: string="user2@example.com";
+  password: string="password2";
   username: string="users";
   token:string='';
 

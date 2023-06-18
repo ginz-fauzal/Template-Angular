@@ -11,7 +11,19 @@
     </div>
     <app-profile></app-profile>
   </div>
-  <div *ngIf="!profileView" id="sidebar">
+  <div *ngIf="kontakView" id="kontak">
+    <div id="row1">
+      <div id="sidebarHeader">
+        <div class="nameSection">
+          <span (click)="kontakShow()">
+            <h5>X Kontak</h5>
+          </span>
+        </div>
+      </div>
+    </div>
+    <app-kontak></app-kontak>
+  </div>
+  <div *ngIf="!profileView && !kontakView" id="sidebar">
     <div id="row1">
       <div id="sidebarHeader">
         <div class="avatarContainer">
@@ -19,7 +31,7 @@
         </div>
         <div class="actionsContainer">
           <h5>
-            <i class="fas fa-fw fa-users"></i> &nbsp;
+            <i class="fas fa-fw fa-users" (click)="kontakShow()"></i> &nbsp;
             <i (click)="logout()" class="fas fa-fw fa-power-off"></i>&nbsp;
             <i class="fas fa-fw fa-ellipsis-v"></i>
           </h5>
@@ -30,10 +42,8 @@
         <input [(ngModel)]="searchText" type="text" placeholder="Search or start the new chat" />
       </div>
     </div>
-
     <div id="sidebarContent">
-      <div class="conversation" *ngFor="let conversation of rooms"
-        (click)="conversationClicked(conversation.id,conversation.jumlah>1 ? conversation.name:conversation.username,conversation.jumlah>1 ? conversation.foto:conversation.fotos)">
+      <div class="conversation" *ngFor="let conversation of rooms" (click)="conversationClicked(conversation.id)">
         <div class="picture">
           <img src="{{ conversation.jumlah>1 ? conversation.foto:conversation.fotos }}" />
         </div>
@@ -69,7 +79,7 @@
   <div *ngIf="userInfo" id="profile">
     <div id="sidebarHeader">
       <div class="nameSection">
-        <span (click)="onUserSelected('')">
+        <span>
           <h5>X Info Kontak</h5>
         </span>
       </div>

@@ -4,6 +4,7 @@ import { AuthGuard } from './auth.guard';
 
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { RoomChattingComponent } from './room-chatting/room-chatting.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, 

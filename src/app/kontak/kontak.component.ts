@@ -10,35 +10,15 @@ import { ServicesService } from '../services.service';
 })
 export class KontakComponent {
 
-  searchText: string="";
   rooms:any[] = [];
-  roomId:number=0;
-  profileView=false;
-  userInfo:any;
-  image="";
-
+  searchText="";
+  
   constructor(private router: Router,private http: HttpClient,public services: ServicesService) {
     this.getData()
-    this.image=this.services.decryptData(localStorage.getItem('image')!);
-    this.roomId=Number(this.services.decryptData(localStorage.getItem('roomId')!));
   }
-
-  logout() {
-    localStorage.clear();
-    this.services.setStorage();
-    this.router.navigate(['/login']);
-  }
-
-  onUserSelected(user:any){
-    this.userInfo = user;
-  }
-
-  profileShow(){
-    this.profileView=!this.profileView;
-  }
-  
+ 
   getData(){
-      const url = 'https://ardikastudio.site/template/room.php';
+      const url = 'https://ardikastudio.site/template/users.php';
       const token = localStorage.getItem('accessToken');
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -55,10 +35,4 @@ export class KontakComponent {
       );
   }
 
-  conversationClicked(id:number,name:string,image:string){
-    localStorage.setItem('roomId', this.services.encryptData(id.toString()));
-    localStorage.setItem('namaRoom', this.services.encryptData(name));
-    localStorage.setItem('imageRoom', this.services.encryptData(image));
-    this.roomId=id
-  }
 }

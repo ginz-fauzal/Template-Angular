@@ -10,17 +10,18 @@ import { ServicesService } from '../services.service';
 })
 export class HomeComponent {
 
-  searchText: string="";
   rooms:any[] = [];
   roomId:number=0;
-  profileView=false;
   userInfo:any;
+  searchText="";
   image="";
 
+  profileView=false;
+  kontakView=false;
+
   constructor(private router: Router,private http: HttpClient,public services: ServicesService) {
+    this.image!=localStorage.getItem("image");
     this.getData()
-    this.image=this.services.decryptData(localStorage.getItem('image')!);
-    this.roomId=Number(this.services.decryptData(localStorage.getItem('roomId')!));
   }
 
   logout() {
@@ -37,6 +38,10 @@ export class HomeComponent {
     this.profileView=!this.profileView;
   }
   
+  kontakShow(){
+    this.kontakView=!this.kontakView;
+  }
+
   getData(){
       const url = 'https://ardikastudio.site/template/room.php';
       const token = localStorage.getItem('accessToken');
@@ -55,10 +60,7 @@ export class HomeComponent {
       );
   }
 
-  conversationClicked(id:number,name:string,image:string){
-    localStorage.setItem('roomId', this.services.encryptData(id.toString()));
-    localStorage.setItem('namaRoom', this.services.encryptData(name));
-    localStorage.setItem('imageRoom', this.services.encryptData(image));
+  conversationClicked(id:number){
     this.roomId=id
   }
 

@@ -7,27 +7,26 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./info.component.scss']
 })
 export class InfoComponent implements OnChanges{
+  
   @Input() userInfo:any;
 
   userData:any=[];
-  email="";
+  userId="";
 
-  constructor(private http: HttpClient) {
-    // this.getData()
-  }
+  constructor(private http: HttpClient) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.email=this.userInfo
+    this.userId=this.userInfo
     this.getData()
   }
 
   getData(){
     console.log(this.userInfo)
-    console.log(this.email)
+    console.log(this.userId)
     const token = localStorage.getItem('accessToken');
     const url = 'https://ardikastudio.site/template/user.php';
     const data = {
-      email: this.email
+      userId: this.userId
     };
     
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

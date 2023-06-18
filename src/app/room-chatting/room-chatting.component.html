@@ -1,16 +1,16 @@
 <div id="container">
   <div id="header">
     <div class="avatarSection">
-      <div class="picture">
+      <!-- <div class="picture">
         <img [src]="roomImage" />
-      </div>
-      <div class="nameSection">{{nama}}</div>
+      </div> -->
+      <!-- <div class="nameSection">{{nama}}</div> -->
     </div>
   </div>
   <div id="body" #scrollContainer *ngIf="!showFileUpload">
     <div class="message " [ngClass]="{ me : message.me=='1' }" *ngFor="let message of chatData">
       <div class="messageContent">
-        <div (click)="userClicked.emit(message.email)" class="title-name">
+        <div (click)="userClicked.emit(message.user_id)" class="title-name">
           {{message.username}}
         </div>
         <pre class="msg">{{ message.tipe_message=='text'?message.message:'' }}</pre>

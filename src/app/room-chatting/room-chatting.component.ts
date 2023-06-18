@@ -1,4 +1,4 @@
-import { Component, Input,OnChanges,SimpleChanges,EventEmitter, OnInit, Output ,ElementRef, Renderer2, ViewChild   } from '@angular/core';
+import { Component, Input,OnChanges,SimpleChanges,EventEmitter, OnInit, Output ,ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { getMessaging, onMessage } from "firebase/messaging";
 import { ServicesService } from '../services.service';
@@ -10,31 +10,30 @@ import { AfterViewChecked } from '@angular/core';
   styleUrls: ['./room-chatting.component.scss']
 })
 export class RoomChattingComponent implements OnChanges,OnInit,AfterViewChecked  {
+
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
 
   @Output() userClicked: EventEmitter<any> = new EventEmitter();
+  @Input() conversation!:number;
 
   chatText: string = '';
   roomId: number =0;
-  roomImage:string='';
+
   chatData: any[] = [];
 
-  @Input() conversation!:number;
   showFileUpload = false;
   emojiPickerVisible=false;
-  nama?:string;
 
-  constructor(private http: HttpClient,public services: ServicesService,private renderer: Renderer2) { }
-
+  constructor(private http: HttpClient,public services: ServicesService,private renderer: Renderer2) {
+    this.roomId=this.conversation
+    this.fetchChatData();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes) {
-      this.showFileUpload = false;
-      this.nama=this.services.decryptData(localStorage.getItem('namaRoom')!);
-      this.roomId=Number(this.services.decryptData(localStorage.getItem('roomId')!));
-      this.roomImage=this.services.decryptData(localStorage.getItem('imageRoom')!);
-      this.fetchChatData();
-    }
+    this.roomId=this.conversation
+    console.log(this.roomId)
+    this.fetchChatData();
+    
   }
 
   ngAfterViewChecked() {
